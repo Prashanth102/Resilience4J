@@ -1,0 +1,26 @@
+management.endpoints.web.exposure.include: '*'
+management.endpoint.health.show-details: always
+management:
+  endpoint:
+    circuitbreakers:
+      enabled: true
+      
+server:
+  port: 9090
+  
+external:
+  service:
+    url: http://localhost:9091
+ 
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 100
+      permittedNumberOfCallsInHalfOpenState: 10
+      waitDurationInOpenState: 10
+      failureRateThreshold: 60
+      registerHealthIndicator: true
+  instances:
+    externalService:
+      baseConfig: default

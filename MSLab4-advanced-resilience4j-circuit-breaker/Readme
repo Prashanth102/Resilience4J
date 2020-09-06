@@ -1,0 +1,34 @@
+Test the application using Swagger UI 
+- http://localhost:8084/swagger-ui.html
+
+>>>
+
+CircuitBreaker - Circuit Breaker has been applied to addBook API. 
+To test if it's working, we will stop the Book Management service.
+First, observe the health of the application by hitting the URL
+http://localhost:8084/actuator/health 
+
+>>>
+
+
+Once it crosses the threshold, which in this case is 5, it will trip the circuit. And,
+each call after that will directly go to the fallback method without making an attempt
+to hit Book Management service. (You can verify this by going to logs and observe the
+logger statement. Now, we can observe the /health endpoint showing CircuitBreaker state
+as "OPEN".
+
+>>>
+
+Pivotal Cloud Foundry
+----------------------
+
+--> In LibraryConfig -> uncomment
+private static final String baseUrl = "https://bookmanagement-service.cfapps.io/";
+and give the correct url
+
+--> Change accountId, apiKey  in LibraryConfig and application.yml 
+
+
+
+
+
